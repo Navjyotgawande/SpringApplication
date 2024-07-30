@@ -23,7 +23,24 @@ public class studentController {
      }
      return  "success";
     }
-
+    @GetMapping("/student/getByName/{name}")
+    public ResponseEntity<Object> showByNameStudent(@PathVariable String name) {
+        List<Student> student = studentService.findByName(name);
+        if(student != null && !student.isEmpty()) {
+            return ResponseEntity.ok(student);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with name " + name + " not found");
+        }
+    }
+    @GetMapping("/student/getByStudentName/{name}")
+    public  ResponseEntity<Object> getByStudentName (@PathVariable String name) {
+        List<Student> student = studentService.findByStudentName(name);
+        if(student != null && !student.isEmpty()) {
+            return ResponseEntity.ok(student);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with name " + name + " not found");
+        }
+    }
     @PostMapping("student/saveAll")
     public String saveAllStudent(@RequestBody List<Student> student) {
         try {
@@ -31,7 +48,7 @@ public class studentController {
         }catch (Exception e) {
             return "Error " +e.getMessage();
         }
-        return "Sucess";
+        return "Success";
     }
 
     @GetMapping("/student/{id}")
